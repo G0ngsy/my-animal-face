@@ -1,73 +1,53 @@
-# React + TypeScript + Vite
+## 🐶 나와 닮은 동물상 찾기 (My Animal Face)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+AI 얼굴 인식 기술을 활용한 15가지 동물상 분석 및 CI/CD 자동화 프로젝트
 
-Currently, two official plugins are available:
+## 🌐 서비스 링크
+Live Demo: [여기에 AWS URL 입력]
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+시연 영상: [여기에 YouTube 링크 입력]
 
-## React Compiler
+## 1. 프로젝트 개요 🎯
+이 프로젝트는 웹캠을 통해 사용자의 얼굴을 실시간으로 감지하고, **얼굴의 가로/세로 비율(Ratio)**과 **눈꼬리 각도(Eye Angle)**를 수치화하여 가장 닮은 동물상을 찾아주는 서비스입니다. 단순한 재미를 넘어 실시간 AI 추론과 CI/CD 배포 자동화를 학습하기 위해 구축되었습니다.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 2. 주요 기능 ✨
+실시간 얼굴 랜드마크 감지: face-api.js를 이용해 얼굴의 68개 점을 실시간으로 추적합니다.
 
-## Expanding the ESLint configuration
+15종 동물상 정밀 분석: 강아지, 고양이, 토끼부터 뱀, 알바카, 곰상까지 상세한 분석 로직을 제공합니다.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+결과 이미지 저장: html2canvas를 사용하여 분석 결과를 이미지 파일로 즉시 다운로드할 수 있습니다.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+반응형 디자인: Tailwind CSS를 활용해 모바일과 데스크탑 모두에서 최적화된 UI를 제공합니다.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 3. 기술 스택 🛠️
+| 분류 | 기술 스택 | 비고 |
+| :--- | :--- | :--- |
+| **Frontend** | React, TypeScript | UI 개발 |
+| **Styling** | Tailwind CSS | 디자인 및 레이아웃 |
+| **AI Library** | face-api.js | 실시간 얼굴 인식 및 분석 |
+| **CI/CD** | Github Actions | 자동 빌드 및 배포 |
+| **Cloud** | AWS | 시스템 호스팅 |
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 4. 분석 알고리즘 (Technical Detail) 🧠
+본 서비스는 다음과 같은 수치를 계산하여 동물상을 판별합니다.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+| 수치명 | 설명 | 판별 기준 |
+| :--- | :--- | :--- |
+| **Face Ratio** | 턱 끝~코 높이 대비 얼굴 가로 폭 | 둥근 얼굴(높음) vs 갸름한 얼굴(낮음) |
+| **Eye Angle** | 눈앞머리 대비 눈꼬리 높이 차이 | 올라간 눈매(높음) vs 처진 눈매(낮음) |
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 🐾 예시 판별 로직
+* **고양이상**: 갸름한 얼굴(`Ratio < 1.2`) + 올라간 눈매(`Angle > 3.5`)
+* **곰상**: 넓은 얼굴(`Ratio > 1.45`) + 아주 순한 눈매(`Angle < 0.8`)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 5. 실행 방법 🚀
+```Bash
+# 저장소 클론
+git clone https://github.com/G0ngsy/my-animal-face.git
+
+# 의존성 설치
+npm install
+
+# 모델 파일 확인 (public/models 폴더 내에 위치해야 함)
+# 실행
+npm start
